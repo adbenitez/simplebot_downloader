@@ -31,7 +31,7 @@ def download_link(bot: DeltaBot, message: Message) -> None:
     Example:
     https://example.com/path/to/file.zip
     """
-    if not message.text.startswith("http"):
+    if message.chat.is_group() or not message.text.startswith("http"):
         return
     replies = Replies(message, bot.logger)
     chat = bot.get_chat(message.get_sender_contact())
