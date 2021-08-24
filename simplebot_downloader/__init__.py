@@ -26,7 +26,7 @@ def deltabot_init(bot: DeltaBot) -> None:
 
 @simplebot.filter
 def download_link(bot: DeltaBot, message: Message) -> None:
-    """Send me in private any direct download link to download file.
+    """Send me in private any direct download link and I will send you the file.
 
     Example:
     https://example.com/path/to/file.zip
