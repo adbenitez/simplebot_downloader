@@ -25,7 +25,7 @@ def deltabot_init(bot: DeltaBot) -> None:
 
 
 @simplebot.filter
-def download_link(bot: DeltaBot, message: Message) -> None:
+def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Send me in private any direct download link and I will send you the file.
 
     Example:
@@ -33,20 +33,16 @@ def download_link(bot: DeltaBot, message: Message) -> None:
     """
     if message.chat.is_group() or not message.text.startswith("http"):
         return
-    replies = Replies(message, bot.logger)
-    chat = bot.get_chat(message.get_sender_contact())
     try:
         part_size = int(get_setting(bot, "part_size"))
         max_size = int(get_setting(bot, "max_size"))
         for path, num, parts_count in split_download(message.text, part_size, max_size):
-            replies.add(text=f"Part {num}/{parts_count}", filename=path, chat=chat)
+            replies.add(text=f"Part {num}/{parts_count}", filename=path)
             replies.send_reply_messages()
     except FileTooBig as ex:
-        replies.add(text=f"❌ {ex}", quote=message, chat=chat)
+        replies.add(text=f"❌ {ex}", quote=message)
     except Exception as ex:
         bot.logger.exception(ex)
         replies.add(
-            text="❌ Failed to download file, is the link correct?",
-            quote=message,
-            chat=chat,
+            text="❌ Failed to download file, is the link correct?", quote=message
         )
