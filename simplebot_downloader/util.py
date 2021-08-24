@@ -46,12 +46,14 @@ def split_download(url: str, part_size: int, max_size: int) -> Generator:
                     archive.write(path, os.path.basename(path))
 
             os.remove(path)
-            for filename in sorted(os.listdir(tempdir)):
+            parts = sorted(os.listdir(tempdir))
+            parts_count = len(parts)
+            for num, filename in enumerate(parts, 1):
                 path = os.path.join(tempdir, filename)
-                yield path
+                yield path, num, parts_count
                 os.remove(path)
         else:
-            yield path
+            yield path, 1, 1
 
 
 def download_file(url: str, folder: str, max_size: int) -> str:

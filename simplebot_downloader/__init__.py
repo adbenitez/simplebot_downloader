@@ -1,5 +1,7 @@
 """Hooks and filters."""
 
+import os
+
 import simplebot
 from deltachat import Message
 from pkg_resources import DistributionNotFound, get_distribution
@@ -36,8 +38,8 @@ def download_link(bot: DeltaBot, message: Message) -> None:
     try:
         part_size = int(get_setting(bot, "part_size"))
         max_size = int(get_setting(bot, "max_size"))
-        for path in split_download(message.text, part_size, max_size):
-            replies.add(filename=path, chat=chat)
+        for path, num, parts_count in split_download(message.text, part_size, max_size):
+            replies.add(text=f"Part {num}/{parts_count}", filename=path, chat=chat)
             replies.send_reply_messages()
     except FileTooBig as ex:
         replies.add(text=f"❌ {ex}", quote=message, chat=chat)
