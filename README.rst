@@ -37,7 +37,7 @@ By default the maximum file size allowed is 104857600 Bytes (100MB), to change i
 
 By default the file will be sent in several emails split in chunks of 15728640 Bytes (15MB), to change it::
 
-  simplebot -a bot@example.com db -s simplebot_downloader/max_size 10485760
+  simplebot -a bot@example.com db -s simplebot_downloader/part_size 10240
 
 
 .. _SimpleBot: https://github.com/simplebot-org/simplebot
