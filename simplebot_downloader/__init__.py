@@ -2,14 +2,14 @@
 
 import time
 from threading import Thread
-from typing import Dict, Generator
+from typing import Callable, Dict, Generator
 
 import simplebot
 from deltachat import Message
 from pkg_resources import DistributionNotFound, get_distribution
 from simplebot.bot import DeltaBot, Replies
 
-from .util import FileTooBig, get_setting, split_download
+from .util import FileTooBig, download_file, get_setting, split_download
 
 try:
     __version__ = get_distribution(__name__).version
@@ -18,6 +18,7 @@ except DistributionNotFound:
     __version__ = "0.0.0.dev0-unknown"
 DEF_MAX_SIZE = str(1024 ** 2 * 100)
 DEF_PART_SIZE = str(1024 ** 2 * 15)
+MAX_QUEUE_SIZE = 50
 downloads: Dict[str, Generator] = {}
 
 
@@ -41,10 +42,20 @@ def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """
     if message.chat.is_group() or not message.text.startswith("http"):
         return
+    queue_download(message.text, bot, message, replies)
+
+
+def queue_download(
+    url: str,
+    bot: DeltaBot,
+    message: Message,
+    replies: Replies,
+    downloader: Callable = download_file,
+) -> None:
     addr = message.get_sender_contact().addr
     if addr in downloads:
         replies.add(text="❌ You already have a download in queue", quote=message)
-    elif len(downloads) >= 50:
+    elif len(downloads) >= MAX_QUEUE_SIZE:
         replies.add(
             text="❌ I'm too busy with too many downloads, try again later",
             quote=message,
@@ -53,7 +64,7 @@ def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
         replies.add(text="✔️ Request added to queue", quote=message)
         part_size = int(get_setting(bot, "part_size"))
         max_size = int(get_setting(bot, "max_size"))
-        downloads[addr] = split_download(message.text, part_size, max_size)
+        downloads[addr] = split_download(url, part_size, max_size, downloader)
 
 
 def _send_files(bot: DeltaBot) -> None:
