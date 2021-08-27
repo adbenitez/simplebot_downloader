@@ -5,7 +5,7 @@ import mimetypes
 import os
 import re
 from tempfile import TemporaryDirectory
-from typing import Generator
+from typing import Callable, Generator
 
 import multivolumefile
 import py7zr
@@ -35,27 +35,6 @@ def get_setting(bot: DeltaBot, key: str, value=None) -> str:
     return val
 
 
-def split_download(url: str, part_size: int, max_size: int) -> Generator:
-    with TemporaryDirectory() as tempdir:
-        path = download_file(url, tempdir, max_size)
-        if os.stat(path).st_size > part_size:
-            with multivolumefile.open(path + ".7z", "wb", volume=part_size) as vol:
-                with py7zr.SevenZipFile(
-                    vol, "w", filters=[{"id": py7zr.FILTER_COPY}]
-                ) as archive:
-                    archive.write(path, os.path.basename(path))
-
-            os.remove(path)
-            parts = sorted(os.listdir(tempdir))
-            parts_count = len(parts)
-            for num, filename in enumerate(parts, 1):
-                path = os.path.join(tempdir, filename)
-                yield path, num, parts_count
-                os.remove(path)
-        else:
-            yield path, 1, 1
-
-
 def download_file(url: str, folder: str, max_size: int) -> str:
     """Download URL and save the file in the give folder.
 
@@ -78,6 +57,29 @@ def download_file(url: str, folder: str, max_size: int) -> str:
                 file.write(chunk)
 
     return filepath
+
+
+def split_download(
+    url: str, part_size: int, max_size: int, downloader: Callable = download_file
+) -> Generator:
+    with TemporaryDirectory() as tempdir:
+        path = downloader(url, tempdir, max_size)
+        if os.stat(path).st_size > part_size:
+            with multivolumefile.open(path + ".7z", "wb", volume=part_size) as vol:
+                with py7zr.SevenZipFile(
+                    vol, "w", filters=[{"id": py7zr.FILTER_COPY}]
+                ) as archive:
+                    archive.write(path, os.path.basename(path))
+
+            os.remove(path)
+            parts = sorted(os.listdir(tempdir))
+            parts_count = len(parts)
+            for num, filename in enumerate(parts, 1):
+                path = os.path.join(tempdir, filename)
+                yield path, num, parts_count
+                os.remove(path)
+        else:
+            yield path, 1, 1
 
 
 def get_filename(resp: requests.Response) -> str:
