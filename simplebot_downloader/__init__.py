@@ -64,17 +64,19 @@ def _send_files(bot: DeltaBot) -> None:
             try:
                 path, num, parts_count = next(parts)
                 replies.add(text=f"Part {num}/{parts_count}", filename=path, chat=chat)
+                replies.send_reply_messages()
                 if num == parts_count:
                     next(parts, None)  # close context
                     downloads.pop(addr, None)
             except FileTooBig as ex:
                 downloads.pop(addr, None)
                 replies.add(text=f"❌ {ex}", chat=chat)
+                replies.send_reply_messages()
             except (StopIteration, Exception) as ex:
                 bot.logger.exception(ex)
                 downloads.pop(addr, None)
                 replies.add(
                     text="❌ Failed to download file, is the link correct?", chat=chat
                 )
-            replies.send_reply_messages()
+                replies.send_reply_messages()
         time.sleep(5)
