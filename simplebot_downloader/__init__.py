@@ -59,9 +59,10 @@ def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
 def _send_files(bot: DeltaBot) -> None:
     replies = Replies(bot, bot.logger)
     while True:
-        bot.logger.debug("Processing downloads queue")
+        items = list(downloads.items())
+        bot.logger.debug("Processing downloads queue (%s)", len(items))
         start = time.time()
-        for addr, parts in list(downloads.items()):
+        for addr, parts in items:
             chat = bot.get_chat(addr)
             try:
                 path, num, parts_count = next(parts)
