@@ -45,7 +45,7 @@ def download_file(url: str, folder: str, max_size: int) -> str:
         url = "http://" + url
     with session.get(url, stream=True) as resp:
         resp.raise_for_status()
-        filepath = os.path.join(folder, get_filename(resp))
+        filepath = os.path.join(folder, get_filename(resp)[-20:])
         with open(filepath, "wb") as file:
             size = 0
             for chunk in resp.iter_content(chunk_size=1024 * 500):
