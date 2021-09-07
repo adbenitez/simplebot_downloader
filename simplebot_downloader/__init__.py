@@ -93,6 +93,6 @@ def _send_files(bot: DeltaBot) -> None:
                     text="❌ Failed to download file, is the link correct?", chat=chat
                 )
                 replies.send_reply_messages()
-        delay = 10 - time.time() + start
+        delay = 15 - time.time() + start
         if delay > 0:
             time.sleep(delay)
