@@ -39,5 +39,9 @@ By default the file will be sent in several emails split in chunks of 15728640 B
 
   simplebot -a bot@example.com db -s simplebot_downloader/part_size 10240
 
+By default there is a delay of 15 seconds between each sent chunk, to change it::
+
+  simplebot -a bot@example.com db -s simplebot_downloader/delay 30
+
 
 .. _SimpleBot: https://github.com/simplebot-org/simplebot

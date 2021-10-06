@@ -16,8 +16,9 @@ try:
 except DistributionNotFound:
     # package is not installed
     __version__ = "0.0.0.dev0-unknown"
-DEF_MAX_SIZE = str(1024 ** 2 * 100)
+DEF_MAX_SIZE = str(1024 ** 2 * 150)
 DEF_PART_SIZE = str(1024 ** 2 * 15)
+DEF_DELAY = "30"
 MAX_QUEUE_SIZE = 50
 downloads: Dict[str, Generator] = {}
 
@@ -26,6 +27,7 @@ downloads: Dict[str, Generator] = {}
 def deltabot_init(bot: DeltaBot) -> None:
     get_setting(bot, "max_size", DEF_MAX_SIZE)
     get_setting(bot, "part_size", DEF_PART_SIZE)
+    get_setting(bot, "delay", DEF_DELAY)
 
 
 @simplebot.hookimpl
@@ -93,6 +95,6 @@ def _send_files(bot: DeltaBot) -> None:
                     text="❌ Failed to download file, is the link correct?", chat=chat
                 )
                 replies.send_reply_messages()
-        delay = 15 - time.time() + start
+        delay = int(get_setting(bot, "delay")) - time.time() + start
         if delay > 0:
             time.sleep(delay)
