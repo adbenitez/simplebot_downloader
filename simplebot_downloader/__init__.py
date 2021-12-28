@@ -6,16 +6,10 @@ from typing import Callable, Dict, Generator
 
 import simplebot
 from deltachat import Message
-from pkg_resources import DistributionNotFound, get_distribution
 from simplebot.bot import DeltaBot, Replies
 
 from .util import FileTooBig, download_file, get_setting, split_download
 
-try:
-    __version__ = get_distribution(__name__).version
-except DistributionNotFound:
-    # package is not installed
-    __version__ = "0.0.0.dev0-unknown"
 DEF_MAX_SIZE = str(1024 ** 2 * 150)
 DEF_PART_SIZE = str(1024 ** 2 * 15)
 DEF_DELAY = "30"
