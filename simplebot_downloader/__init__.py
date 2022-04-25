@@ -12,7 +12,7 @@ from .util import FileTooBig, download_file, get_setting, split_download
 
 DEF_MAX_SIZE = str(1024 ** 2 * 150)
 DEF_PART_SIZE = str(1024 ** 2 * 15)
-DEF_DELAY = "30"
+DEF_DELAY = "60"
 MAX_QUEUE_SIZE = 50
 downloads: Dict[str, Generator] = {}
 

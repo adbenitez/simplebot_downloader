@@ -31,7 +31,7 @@ To install run::
 Customization
 -------------
 
-By default the maximum file size allowed is 104857600 Bytes (100MB), to change it::
+By default the maximum file size allowed is 150MB, to change it, pass the number of bytes as follows::
 
   simplebot -a bot@example.com db -s simplebot_downloader/max_size 10485760
 
@@ -39,9 +39,9 @@ By default the file will be sent in several emails split in chunks of 15728640 B
 
   simplebot -a bot@example.com db -s simplebot_downloader/part_size 10240
 
-By default there is a delay of 15 seconds between each sent chunk, to change it::
+By default there is a delay of 60 seconds between each sent chunk, to change it::
 
-  simplebot -a bot@example.com db -s simplebot_downloader/delay 30
+  simplebot -a bot@example.com db -s simplebot_downloader/delay 120
 
 
 .. _SimpleBot: https://github.com/simplebot-org/simplebot
