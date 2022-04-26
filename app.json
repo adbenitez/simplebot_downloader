@@ -15,7 +15,7 @@
             "description": "Your own email address as bot administrator",
             "required": false,
             "value": ""
-        },    
+        },
         "ADDR": {
             "description": "The email address of the bot (IMAP access required)",
             "value": ""
