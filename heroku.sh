@@ -2,6 +2,7 @@
 
 # configure the bot
 python3 -m simplebot init "$ADDR" "$PASSWORD"
+python3 -m simplebot -a "$ADDR" set_name "File Downloader"
 python3 -m simplebot -a "$ADDR" set_config e2ee_enabled 0  # disable encryption to avoid issues with key lost
 
 # add the youtube plugin
