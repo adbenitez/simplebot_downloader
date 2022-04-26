@@ -1,3 +1,7 @@
+.. image:: https://www.herokucdn.com/deploy/button.svg
+   :target: https://heroku.com/deploy?template=https://github.com/adbenitez/simplebot_downloader/tree/master/
+
+
 "Downloader" SimpleBot Plugin
 =============================
 
