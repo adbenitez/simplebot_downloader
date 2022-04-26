@@ -10,7 +10,7 @@ python3 -c "import requests; r=requests.get('https://github.com/adbenitez/simple
 python3 -m simplebot -a "$ADDR" plugin --add ./youtube.py
 
 # add admin plugin
-if [ -z "$ADMIN" ]; then
+if [ -n "$ADMIN" ]; then
     python3 -m pip install psutil # required by admin.py plugin
     python3 -c "import requests; r=requests.get('https://github.com/adbenitez/simplebot-scripts/raw/master/scripts/admin.py'); open('admin.py', 'wb').write(r.content)"
     python3 -m simplebot -a "$ADDR" plugin --add ./admin.py
