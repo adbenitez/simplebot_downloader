@@ -1,3 +1,7 @@
+.. image:: https://www.herokucdn.com/deploy/button.svg
+   :target: https://heroku.com/deploy?template=https://github.com/adbenitez/simplebot_downloader/tree/master/
+
+
 "Downloader" SimpleBot Plugin
 =============================
 
@@ -42,10 +46,6 @@ By default the file will be sent in several emails split in chunks of 15728640 B
 By default there is a delay of 60 seconds between each sent chunk, to change it::
 
   simplebot -a bot@example.com db -s simplebot_downloader/delay 120
-
-
-.. image:: https://www.herokucdn.com/deploy/button.svg
-   :target: https://heroku.com/deploy?template=https://github.com/adbenitez/simplebot_downloader/tree/master/
 
 
 .. _SimpleBot: https://github.com/simplebot-org/simplebot
