@@ -2,7 +2,6 @@
 alias bot='python3 -m simplebot -a "$ADDR"'
 
 # install deps
-python3 -m pip install git+https://github.com/adbenitez/simplebot_downloader
 python3 -m pip install psutil # required by admin.py plugin
 python3 -m pip install youtube-dl # required by youtube.py plugin
 
