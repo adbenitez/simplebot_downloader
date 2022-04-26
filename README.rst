@@ -35,7 +35,7 @@ To install run::
 Customization
 -------------
 
-By default the maximum file size allowed is 150MB, to change it, pass the number of bytes as follows::
+By default the maximum file size allowed is 300MB, to change it, pass the number of bytes as follows::
 
   simplebot -a bot@example.com db -s simplebot_downloader/max_size 10485760
 
