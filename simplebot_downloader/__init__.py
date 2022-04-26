@@ -22,6 +22,12 @@ def deltabot_init(bot: DeltaBot) -> None:
     get_setting(bot, "max_size", DEF_MAX_SIZE)
     get_setting(bot, "part_size", DEF_PART_SIZE)
     get_setting(bot, "delay", DEF_DELAY)
+    mode = get_setting(bot, "mode", "filter")
+
+    if mode == "filter":
+        bot.filters.register(download_filter)
+    else:
+        bot.commands.register(download_command)
 
 
 @simplebot.hookimpl
@@ -29,8 +35,7 @@ def deltabot_start(bot: DeltaBot) -> None:
     Thread(target=_send_files, args=(bot,)).start()
 
 
-@simplebot.filter
-def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
+def download_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
     """Send me in private any direct download link and I will send you the file.
 
     Example:
@@ -39,6 +44,15 @@ def download_link(bot: DeltaBot, message: Message, replies: Replies) -> None:
     if message.chat.is_group() or not message.text.startswith("http"):
         return
     queue_download(message.text, bot, message, replies)
+
+
+def download_command(bot: DeltaBot, payload: str, message: Message, replies: Replies) -> None:
+    """Download the given file link.
+
+    Example:
+    /download https://example.com/path/to/file.zip
+    """
+    queue_download(payload, bot, message, replies)
 
 
 def queue_download(

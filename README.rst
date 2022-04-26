@@ -47,5 +47,9 @@ By default there is a delay of 60 seconds between each sent chunk, to change it:
 
   simplebot -a bot@example.com db -s simplebot_downloader/delay 120
 
+By default the bot is in "filter" mode, this mean to queue downloads you just send the file link directly, to download with a command instead::
+
+  simplebot -a bot@example.com db -s simplebot_downloader/mode command
+
 
 .. _SimpleBot: https://github.com/simplebot-org/simplebot
