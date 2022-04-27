@@ -46,7 +46,9 @@ def download_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
     queue_download(message.text, bot, message, replies)
 
 
-def download_command(bot: DeltaBot, payload: str, message: Message, replies: Replies) -> None:
+def download_command(
+    bot: DeltaBot, payload: str, message: Message, replies: Replies
+) -> None:
     """Download the given file link.
 
     Example:
