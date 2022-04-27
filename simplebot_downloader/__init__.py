@@ -27,7 +27,7 @@ def deltabot_init(bot: DeltaBot) -> None:
     if mode == "filter":
         bot.filters.register(download_filter)
     else:
-        bot.commands.register(download_command)
+        bot.commands.register(download_cmd, name="/download")
 
 
 @simplebot.hookimpl
@@ -46,7 +46,7 @@ def download_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
     queue_download(message.text, bot, message, replies)
 
 
-def download_command(
+def download_cmd(
     bot: DeltaBot, payload: str, message: Message, replies: Replies
 ) -> None:
     """Download the given file link.
