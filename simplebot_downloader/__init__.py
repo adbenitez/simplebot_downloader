@@ -41,7 +41,7 @@ def download_filter(bot: DeltaBot, message: Message, replies: Replies) -> None:
     Example:
     https://example.com/path/to/file.zip
     """
-    if message.chat.is_group() or not message.text.startswith("http"):
+    if message.chat.is_multiuser() or not message.text.startswith("http"):
         return
     queue_download(message.text, bot, message, replies)
 
