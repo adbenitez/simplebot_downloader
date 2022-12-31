@@ -89,7 +89,8 @@ def _send_files(bot: DeltaBot) -> None:
             chat = bot.get_chat(addr)
             try:
                 path, num, parts_count = next(parts)
-                replies.add(text=f"Part {num}/{parts_count}", filename=path, chat=chat)
+                text = f"Part {num}/{parts_count}"
+                replies.add(text=text, sender=text, filename=path, chat=chat)
                 replies.send_reply_messages()
                 if num == parts_count:
                     next(parts, None)  # close context

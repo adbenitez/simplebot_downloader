@@ -5,6 +5,7 @@ Changelog
 -------------
 
 - changed default `max_size` to 300MB.
+- set part number as display name of the message to preview before downloading
 
 1.0.0
 -----
